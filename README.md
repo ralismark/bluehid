@@ -30,3 +30,9 @@ If you haven't paired with the host device, you need to do so first.
 To connect, open the app (enabling Bluetooth if prompted), press on `(disconnected)` and select the host device.
 The status should change to `Connecting`, then `Connected` (Note that Connecting may not be visible for long).
 After this, you should be able to use the app as a controller.
+
+# Attribution
+
+This project uses [
+controlwear/virtual-joystick-android](https://github.com/controlwear/virtual-joystick-android), which is available under the Apache 2.0 License.
+A copy can be obtained from LICENSE file in that repository, or from http://www.apache.org/licenses/LICENSE-2.0.
