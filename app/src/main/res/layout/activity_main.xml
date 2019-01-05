@@ -41,7 +41,7 @@
         custom:JV_borderWidth="4dp"
         custom:JV_buttonColor="@color/colorPrimary"
         custom:JV_buttonSizeRatio="15%"
-        custom:JV_backgroundSizeRatio="603%"
+        custom:JV_backgroundSizeRatio="60%"
         custom:layout_constraintEnd_toStartOf="@+id/guideline2"
         custom:layout_constraintTop_toTopOf="@+id/guideline" />
 
