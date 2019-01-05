@@ -242,9 +242,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        btConnect(null); // disconnect
-        Spinner btList = findViewById(R.id.devices);
-        btList.setSelection(0);
+        if(mBtHidDevice != null) {
+            btConnect(null); // disconnect
+            Spinner btList = findViewById(R.id.devices);
+            btList.setSelection(0);
+        }
     }
 
     @Override
