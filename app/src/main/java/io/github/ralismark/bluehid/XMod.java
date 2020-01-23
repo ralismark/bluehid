@@ -45,9 +45,11 @@ public class XMod implements IXposedHookInitPackageResources, IXposedHookLoadPac
 
                 ComponentName hidServiceName = new ComponentName(
                         "com.android.bluetooth", "com.android.bluetooth.hid.HidDevService");
-                pm.setComponentEnabledSetting(hidServiceName,
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-                XposedBridge.log("Forced enable com.android.bluetooth.hid.HidDevService");
+                if (pm.getComponentEnabledSetting(hidServiceName) != PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
+                    pm.setComponentEnabledSetting(hidServiceName,
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                    XposedBridge.log("Forced enable com.android.bluetooth.hid.HidDevService");
+                }
             }
         });
     }
