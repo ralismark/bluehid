@@ -4,8 +4,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHidDeviceAppSdpSettings;
-import android.bluetooth.BluetoothHidDeviceCallback;
-import android.bluetooth.BluetoothInputHost;
+import android.bluetooth.BluetoothHidDevice;
 import android.bluetooth.BluetoothProfile;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private BluetoothInputHost mBtHidDevice;
+    private BluetoothHidDevice mBtHidDevice;
     private BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothDevice mBtDevice;
 
@@ -104,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             @SuppressLint("NewApi")
             public void onServiceConnected(int profile, BluetoothProfile proxy) {
-                if (profile == BluetoothProfile.INPUT_HOST) {
+                if (profile == BluetoothProfile.HID_DEVICE) {
                     info("Got HID device");
-                    mBtHidDevice = (BluetoothInputHost) proxy;
+                    mBtHidDevice = (BluetoothHidDevice) proxy;
 
 
                     BluetoothHidDeviceAppSdpSettings sdp = new BluetoothHidDeviceAppSdpSettings(
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                             descriptor
                     );
 
-                    mBtHidDevice.registerApp(sdp, null, null, new BluetoothHidDeviceCallback() {
+                    mBtHidDevice.registerApp(sdp, null, null, getMainExecutor(), new BluetoothHidDevice.Callback() {
                         @Override
                         public void onGetReport(BluetoothDevice device, byte type, byte id, int bufferSize) {
                             Log.v(TAG, "onGetReport: device=" + device + " type=" + type
@@ -152,11 +151,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServiceDisconnected(int profile) {
-                if (profile == BluetoothProfile.INPUT_HOST) {
+                if (profile == BluetoothProfile.HID_DEVICE) {
                     info("Lost HID device");
                 }
             }
-        }, BluetoothProfile.INPUT_HOST);
+        }, BluetoothProfile.HID_DEVICE);
     }
 
     private ImageButton[] buttons;
