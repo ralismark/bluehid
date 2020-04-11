@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,13 +93,19 @@ public class MainActivity extends AppCompatActivity {
 
     private Vibrator vibrator;
 
+    private void info(String msg) {
+        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
+        Log.d(TAG, msg);
+    }
+
     private void getProxy() {
         mBtAdapter.getProfileProxy(this, new BluetoothProfile.ServiceListener() {
             @Override
             @SuppressLint("NewApi")
             public void onServiceConnected(int profile, BluetoothProfile proxy) {
                 if (profile == BluetoothProfile.INPUT_HOST) {
-                    Log.d(TAG, "Got HID device");
+                    info("Got HID device");
                     mBtHidDevice = (BluetoothInputHost) proxy;
 
 
@@ -146,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onServiceDisconnected(int profile) {
                 if (profile == BluetoothProfile.INPUT_HOST) {
-                    Log.d(TAG, "Lost HID device");
+                    info("Lost HID device");
                 }
             }
         }, BluetoothProfile.INPUT_HOST);
@@ -335,6 +342,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    static int reportIndex = 0;
+
     private void sendReport() {
         // get button state
         byte state = 0;
@@ -350,6 +359,8 @@ public class MainActivity extends AppCompatActivity {
         int adjY = bounds.clamp((int) ((double) joystick.getTag(R.id.tag_y_pos) * -127));
 
         Log.d(TAG, "sendReport(): " + state + " " + adjX + " " + adjY);
+        TextView reportIndicator = (TextView)findViewById(R.id.reportCount);
+        reportIndicator.setText("#" + reportIndex++);
 
         for (BluetoothDevice btDev : mBtHidDevice.getConnectedDevices()) {
             mBtHidDevice.sendReport(btDev, 0, new byte[]{
