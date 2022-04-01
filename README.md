@@ -40,7 +40,7 @@ A copy can be obtained from LICENSE file in that repository, or from http://www.
 # License
 
 ```
-   Copyright 2019 Timmy Yao
+   Copyright 2019 ralismark
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
